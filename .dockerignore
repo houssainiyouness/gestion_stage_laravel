@@ -1,0 +1,10 @@
+.git
+.github
+node_modules
+vendor
+storage/logs/*.log
+.env
+.env.*
+!/.env.docker
+Dockerfile
+docker-compose.override.yml
