@@ -55,7 +55,7 @@ http://127.0.0.1:8000
 
 | Rôle | Email | Mot de passe |
 |---|---|---|
-| Super Admin | superadmin@example.com | 12345678 |
+| Super Admin | super_admin@gmail.com | 12345678 |
 | Admin Organisme | admin@example.com | 12345678 |
 | Encadrant | encadrant@example.com | 12345678 |
 | Étudiant | etudiant@example.com | 12345678 |
