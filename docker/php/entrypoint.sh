@@ -3,7 +3,7 @@ set -e
 
 cd /var/www/html
 
-mkdir -p storage/framework/cache \
+mkdir -p storage/framework/cache/data \
          storage/framework/sessions \
          storage/framework/views \
          storage/logs \
@@ -21,6 +21,8 @@ if [ ! -f vendor/autoload.php ]; then
     composer install --no-interaction --prefer-dist
 fi
 
+chmod -R 777 storage bootstrap/cache || true
+
 if [ -f .env ] && ! grep -q "^APP_KEY=base64:" .env; then
     php artisan key:generate --force || true
 fi
@@ -34,6 +36,11 @@ if [ "$RUN_MIGRATIONS" = "true" ]; then
     php artisan migrate --force || true
 fi
 
+if [ "$RUN_SEEDERS" = "true" ]; then
+    php artisan db:seed --force || true
+fi
+
+chmod -R 777 storage bootstrap/cache || true
 chown -R www-data:www-data storage bootstrap/cache || true
 
 exec "$@"

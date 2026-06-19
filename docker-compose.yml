@@ -9,7 +9,8 @@ services:
     volumes:
       - ./:/var/www/html
     environment:
-      RUN_MIGRATIONS: "true"
+        RUN_MIGRATIONS: "true"
+        RUN_SEEDERS: "true"
     depends_on:
       db:
         condition: service_healthy
