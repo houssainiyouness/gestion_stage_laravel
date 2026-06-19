@@ -1,20 +1,20 @@
 services:
-app:
-  build:
-    context: .
-    dockerfile: Dockerfile
-  container_name: gestion_stage_app
-  restart: unless-stopped
-  working_dir: /var/www/html
-  volumes:
-    - ./:/var/www/html
-  environment:
-    RUN_MIGRATIONS: "true"
-  depends_on:
-    db:
-      condition: service_healthy
-  networks:
-    - gestion_stage_network
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gestion_stage_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    environment:
+      RUN_MIGRATIONS: "true"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - gestion_stage_network
 
   nginx:
     image: nginx:1.27-alpine
