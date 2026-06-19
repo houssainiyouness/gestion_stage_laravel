@@ -3,22 +3,36 @@ set -e
 
 cd /var/www/html
 
-mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache
+mkdir -p storage/framework/cache \
+         storage/framework/sessions \
+         storage/framework/views \
+         storage/logs \
+         bootstrap/cache
 
 if [ ! -f .env ]; then
-    cp .env.example .env
+    if [ -f .env.docker ]; then
+        cp .env.docker .env
+    elif [ -f .env.example ]; then
+        cp .env.example .env
+    fi
 fi
 
-composer install --no-interaction --prefer-dist
+if [ ! -f vendor/autoload.php ]; then
+    composer install --no-interaction --prefer-dist
+fi
 
-php artisan config:clear || true
-php artisan cache:clear || true
-
-if ! grep -q "^APP_KEY=base64:" .env 2>/dev/null; then
+if [ -f .env ] && ! grep -q "^APP_KEY=base64:" .env; then
     php artisan key:generate --force || true
 fi
 
+php artisan config:clear || true
+php artisan cache:clear || true
+php artisan view:clear || true
 php artisan storage:link || true
+
+if [ "$RUN_MIGRATIONS" = "true" ]; then
+    php artisan migrate --force || true
+fi
 
 chown -R www-data:www-data storage bootstrap/cache || true
 
