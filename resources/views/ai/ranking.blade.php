@@ -119,10 +119,10 @@
                         </form>
  
                     @elseif($application->status === 'acceptee')
-                        <span class="badge green">✔ Acceptée</span>
+                        <span class="badge green">Acceptée</span>
  
                     @elseif($application->status === 'refusee')
-                        <span class="badge red">✘ Refusée</span>
+                        <span class="badge red">Refusée</span>
                     @endif
                 </td>
             </tr>
